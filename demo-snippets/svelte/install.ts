@@ -2,7 +2,9 @@ import { install as installBottomSheet } from '@nativescript-community/ui-materi
 import { installMixins, themer } from '@nativescript-community/ui-material-core';
 
 import ButtonPlugin from '@nativescript-community/ui-material-button/svelte';
+import BottomNavigationBarPlugin from '@nativescript-community/ui-material-bottomnavigationbar/svelte';
 import Buttons from './Buttons.svelte';
+import BottomNavigationBar from './BottomNavigationBar.svelte';
 import '../app.scss';
 
 installMixins();
@@ -22,6 +24,10 @@ themer.createShape('cut', {
 });
 export function installPlugin() {
     ButtonPlugin.register();
+    BottomNavigationBarPlugin.register();
 }
 
-export const demos = [{ name: 'Buttons', path: 'Buttons', component: Buttons }];
+export const demos = [
+    { name: 'Buttons', path: 'Buttons', component: Buttons },
+    { name: 'BottomNavigationBar', path: 'BottomNavigationBar', component: BottomNavigationBar },
+];

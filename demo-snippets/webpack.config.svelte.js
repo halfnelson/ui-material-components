@@ -1,6 +1,7 @@
 const { readFileSync } = require('fs');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { resolve } = require('path');
+
 function fixedFromCharCode(codePt) {
     if (codePt > 0xffff) {
         codePt -= 0x10000;
@@ -21,11 +22,12 @@ module.exports = (env, webpack) => {
         config.module.rule('scss').use('sass-loader').options({
             additionalData: scssPrepend
         });
+       
         config.module
             .rule('replace_mdi')
             .exclude.add(/node_modules/)
             .end()
-            .test(/\.(ts|js|scss|css|vue)$/)
+            .test(/\.(ts|js|scss|css|svelte)$/)
             .use('string-replace-loader')
             .loader(resolve(__dirname, 'node_modules/string-replace-loader'))
             .options({
@@ -38,5 +40,15 @@ module.exports = (env, webpack) => {
                 },
                 flags: 'g'
             });
+        config.plugin('material-font').use(CopyWebpackPlugin, [
+            {
+                patterns: [
+                    {
+                        from: resolve(__dirname, 'node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf'),
+                        to: 'fonts'
+                    }
+                ]
+            }
+        ]);
     });
 };
